@@ -1,4 +1,4 @@
-﻿int variable = 5;
-Console.WriteLine(variable); // This prints 5
-variable = 10;
-Console.WriteLine(variable); // This prints 10
+﻿int number = 5;
+Console.WriteLine(number); // This prints 5
+number = 10;
+Console.WriteLine(number); // This prints 10
