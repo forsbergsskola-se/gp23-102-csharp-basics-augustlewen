@@ -1,2 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿int variable = 5;
+Console.WriteLine(variable); // This prints 5
+variable = 10;
+Console.WriteLine(variable); // This prints 10
