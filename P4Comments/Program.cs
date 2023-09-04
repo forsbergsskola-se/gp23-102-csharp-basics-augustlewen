@@ -1,2 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿/* August Lewén
+2023-09-04
+august.lewen@student.forsbergsskola.se */
 Console.WriteLine("Hello, World!");
