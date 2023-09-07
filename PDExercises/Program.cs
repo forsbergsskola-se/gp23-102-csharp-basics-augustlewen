@@ -77,35 +77,23 @@ void Assignment4()
 void Assignment5()
 {
     Console.WriteLine("Write a value for the radius of a circle");
-    float radius = float.Parse(Console.ReadLine());
-    float area = MathF.PI * MathF.Pow(radius, 2);
-    Console.WriteLine($"The Area of the circle is {area}");
+    int value = int.Parse(Console.ReadLine());
+    int negatedValue = -value;
+    Console.WriteLine($"The Area of the circle is {negatedValue}");
 }
 void Assignment6()
 {
-    Console.WriteLine("Write a value for the radius of a circle");
-    float radius = float.Parse(Console.ReadLine());
-    float area = MathF.PI * MathF.Pow(radius, 2);
-    Console.WriteLine($"The Area of the circle is {area}");
+   
 }
 void Assignment7()
 {
-    Console.WriteLine("Write a value for the radius of a circle");
-    float radius = float.Parse(Console.ReadLine());
-    float area = MathF.PI * MathF.Pow(radius, 2);
-    Console.WriteLine($"The Area of the circle is {area}");
+    
 }
 void Assignment8()
 {
-    Console.WriteLine("Write a value for the radius of a circle");
-    float radius = float.Parse(Console.ReadLine());
-    float area = MathF.PI * MathF.Pow(radius, 2);
-    Console.WriteLine($"The Area of the circle is {area}");
+   
 }
 void Assignment9()
 {
-    Console.WriteLine("Write a value for the radius of a circle");
-    float radius = float.Parse(Console.ReadLine());
-    float area = MathF.PI * MathF.Pow(radius, 2);
-    Console.WriteLine($"The Area of the circle is {area}");
+    
 }
