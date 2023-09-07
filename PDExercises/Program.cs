@@ -1,4 +1,8 @@
-﻿SelectAssignment();
+﻿while (true)
+{
+    SelectAssignment();
+    
+}
 
 void SelectAssignment()
 {
@@ -14,15 +18,15 @@ void SelectAssignment()
             break;
         case "4": Assignment4();
             break;
-        case "5": Assignment1();
+        case "5": Assignment5();
             break;
-        case "6": Assignment1();
+        case "6": Assignment6();
             break;
-        case "7": Assignment1();
+        case "7": Assignment7();
             break;
-        case "8": Assignment1();
+        case "8": Assignment8();
             break;
-        case "9": Assignment1();
+        case "9": Assignment9();
             break;
         default: Console.WriteLine("Error, invalid input");
             SelectAssignment();
@@ -30,6 +34,7 @@ void SelectAssignment()
     }
     
 }
+
 
 void Assignment1()
 {
@@ -41,24 +46,66 @@ void Assignment1()
 
 void Assignment2()
 {
-    Console.WriteLine("Write a value for km/h to convert it to m/s");
-    float kmh = float.Parse(Console.ReadLine());
-    float ms = kmh * 5 / 18;
-    Console.WriteLine($"{kmh}km/h = {ms}m/s");
+    Console.WriteLine("Write a value you wish to divide");
+    int value = int.Parse(Console.ReadLine());
+    Console.WriteLine("Write a value for the divisor");
+    int divisor = int.Parse(Console.ReadLine());
+
+    float result = (float)value / (float)divisor;
+    Console.WriteLine($"{value} / {divisor} = {result}");
 }
 
 void Assignment3()
 {
-    Console.WriteLine("Write a value for km/h to convert it to m/s");
-    float kmh = float.Parse(Console.ReadLine());
-    float ms = kmh * 5 / 18;
-    Console.WriteLine($"{kmh}km/h = {ms}m/s");
+    Console.WriteLine("Write a value you wish to divide");
+    int value = int.Parse(Console.ReadLine());
+    Console.WriteLine("Write a value for the divisor");
+    int divisor = int.Parse(Console.ReadLine());
+
+    float result = (float)value % (float)divisor;
+    Console.WriteLine($"The Remainder of {value} / {divisor} is {result}");
 }
 
 void Assignment4()
 {
-    Console.WriteLine("Write a value for km/h to convert it to m/s");
-    float kmh = float.Parse(Console.ReadLine());
-    float ms = kmh * 5 / 18;
-    Console.WriteLine($"{kmh}km/h = {ms}m/s");
+    Console.WriteLine("Write a value for the radius of a circle");
+    float radius = float.Parse(Console.ReadLine());
+    float area = MathF.PI * MathF.Pow(radius, 2);
+    Console.WriteLine($"The Area of the circle is {area}");
+}
+
+void Assignment5()
+{
+    Console.WriteLine("Write a value for the radius of a circle");
+    float radius = float.Parse(Console.ReadLine());
+    float area = MathF.PI * MathF.Pow(radius, 2);
+    Console.WriteLine($"The Area of the circle is {area}");
+}
+void Assignment6()
+{
+    Console.WriteLine("Write a value for the radius of a circle");
+    float radius = float.Parse(Console.ReadLine());
+    float area = MathF.PI * MathF.Pow(radius, 2);
+    Console.WriteLine($"The Area of the circle is {area}");
+}
+void Assignment7()
+{
+    Console.WriteLine("Write a value for the radius of a circle");
+    float radius = float.Parse(Console.ReadLine());
+    float area = MathF.PI * MathF.Pow(radius, 2);
+    Console.WriteLine($"The Area of the circle is {area}");
+}
+void Assignment8()
+{
+    Console.WriteLine("Write a value for the radius of a circle");
+    float radius = float.Parse(Console.ReadLine());
+    float area = MathF.PI * MathF.Pow(radius, 2);
+    Console.WriteLine($"The Area of the circle is {area}");
+}
+void Assignment9()
+{
+    Console.WriteLine("Write a value for the radius of a circle");
+    float radius = float.Parse(Console.ReadLine());
+    float area = MathF.PI * MathF.Pow(radius, 2);
+    Console.WriteLine($"The Area of the circle is {area}");
 }
