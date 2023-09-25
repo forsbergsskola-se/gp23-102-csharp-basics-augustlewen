@@ -1,44 +1,44 @@
-﻿    
-Grid[] playerGrid = new Grid[2];
+﻿const int rows = 10;
+const int columns = 10;
 int[] shipSizes = new int[5] {5, 4, 3, 3, 2};
-Ship[] p1ships = new Ship[shipSizes.Length];
-Ship[] p2ships = new Ship[shipSizes.Length];
-int rows = 10;
-int collumns = 10;
+    
+Grid[] playerGrid = new Grid[2];
+Ship[] p1Ships = new Ship[shipSizes.Length];
+Ship[] p2Ships = new Ship[shipSizes.Length];
 ConsoleColor[] playerColor = new ConsoleColor[2] { ConsoleColor.Yellow , ConsoleColor.Blue};
+bool gameOver = false;
 
 for (int p = 0; p < 2; p++)
 {
-    playerGrid[p] = new Grid(rows, collumns);
-    playerGrid[p].position = new GridPosition[rows, collumns];
-    for (int row = 0; row < rows; row++)
+    playerGrid[p] = new Grid(rows, columns);
+    playerGrid[p].position = new GridPosition[rows, columns];
+    for (int r = 0; r < rows; r++)
     {
-        for (int collumn = 0; collumn < collumns; collumn++)
+        for (int c = 0; c < columns; c++)
         {
-            playerGrid[p].position[row, collumn] = new GridPosition(" ");
+            playerGrid[p].position[r, c] = new GridPosition(" ");
         }
     }
 }
 
-bool gameOver = false;
 
 for (int s = 0; s < shipSizes.Length; s++)
 {
-    p1ships[s] = new Ship(shipSizes[s]);
-    p2ships[s] = new Ship(shipSizes[s]);
+    p1Ships[s] = new Ship(shipSizes[s]);
+    p2Ships[s] = new Ship(shipSizes[s]);
 }
 
 
 Console.ForegroundColor = playerColor[0];
 Console.WriteLine("Player 1, place your ships");
-foreach (Ship ship in p1ships)
+foreach (Ship ship in p1Ships)
     PlaceShip(ship, 0, 1);
 
 Console.Clear();
 
 Console.ForegroundColor = playerColor[1];
 Console.WriteLine("Player 2, place your ships");
-foreach (Ship ship in p2ships)
+foreach (Ship ship in p2Ships)
     PlaceShip(ship, 1, 0);
 
 Console.Clear();
@@ -60,26 +60,26 @@ void GameTurn(int player, int enemyPlayer)
     DrawGameBoard(enemyPlayer, player, false);
     Console.WriteLine($"Where do you want to shoot Player{player + 1}?");
     InputPosFunction:
-    InputPosition(out int collumn, out int row);
+    InputPosition(out int column, out int row);
 
-    GridPosition gridPosition = playerGrid[enemyPlayer].position[row, collumn];
+    GridPosition gridPosition = playerGrid[enemyPlayer].position[row, column];
     if (gridPosition.boardSymbol != " ")
     {
         Console.WriteLine("Invalid Position, You have already shot here");
         goto InputPosFunction;
     }
 
-    string feedbackmessage = "";
+    string feedbackMessage = "";
 
     if (gridPosition.ship == null)
     {
         gridPosition.boardSymbol = "o";
-        feedbackmessage = "Miss";
+        feedbackMessage = "Miss";
         // Console.WriteLine("Miss");
     }
     else
     {
-        feedbackmessage = "Hit!";
+        feedbackMessage = "Hit!";
 
         // Console.WriteLine("Hit!");
         gridPosition.boardSymbol = "X";
@@ -88,24 +88,23 @@ void GameTurn(int player, int enemyPlayer)
     
     DrawGameBoard(enemyPlayer, player, false);
     Console.WriteLine("");
-    Console.WriteLine(feedbackmessage);
+    Console.WriteLine(feedbackMessage);
 
-    if(gridPosition.ship != null)
-        if (gridPosition.ship.hp == 0)
+    if(gridPosition.ship is { hp: 0 })
+    {
+        gridPosition.ship.sunk = true;
+        Console.WriteLine("Sunk!!");
+
+        if (IsAllEnemyShipSunk(enemyPlayer))
         {
-            gridPosition.ship.sunk = true;
-            Console.WriteLine("Sunk!!");
+            System.Threading.Thread.Sleep(1500);
+            Console.WriteLine("");
 
-            if (IsAllEnemyShipSunk(enemyPlayer))
-            {
-                System.Threading.Thread.Sleep(1500);
-                Console.WriteLine("");
-
-                Console.WriteLine($"Player{player + 1} Wins!!!");
-                gameOver = true;
-            }
+            Console.WriteLine($"Player{player + 1} Wins!!!");
+            gameOver = true;
         }
-    
+    }
+
     System.Threading.Thread.Sleep(1500);
     Console.WriteLine("");
 }
@@ -124,9 +123,9 @@ bool IsAllEnemyShipSunk(int enemyPlayer)
 Ship[] GetPlayerShips(int player)
 {
     if (player == 0)
-        return p1ships;
+        return p1Ships;
 
-    return p2ships;
+    return p2Ships;
 }
 
 void PlaceShip(Ship ship, int player, int otherPlayer)
@@ -134,10 +133,10 @@ void PlaceShip(Ship ship, int player, int otherPlayer)
     PlaceShip:
     DrawGameBoard(player, otherPlayer, true);
     Console.WriteLine($"Where do you want to place your {ship.size}x ship?");
-    InputPosition(out int collumn, out int row);
+    InputPosition(out int column, out int row);
 
-    if (!IsViablePlacement(ship, true, playerGrid[player], row, collumn) &&
-        !IsViablePlacement(ship, false, playerGrid[player], row, collumn))
+    if (!IsViablePlacement(ship, true, playerGrid[player], row, column) &&
+        !IsViablePlacement(ship, false, playerGrid[player], row, column))
     {
         Console.WriteLine("Invalid Placement, must be placed 2 units away from other ships and inside the grid");
         goto PlaceShip;
@@ -153,7 +152,7 @@ void PlaceShip(Ship ship, int player, int otherPlayer)
     }
 
     bool isHorizontal = inputHorizontal == "y";
-    if (!IsViablePlacement(ship, isHorizontal, playerGrid[player], row, collumn))
+    if (!IsViablePlacement(ship, isHorizontal, playerGrid[player], row, column))
     {
         Console.WriteLine("Invalid Placement, must be placed 2 units away from other ships and inside the grid");
         goto PlaceShip;
@@ -161,10 +160,10 @@ void PlaceShip(Ship ship, int player, int otherPlayer)
 
     for (int i = 0; i < ship.size; i++)
     {
-        playerGrid[player].position[row, collumn].ship = ship;
+        playerGrid[player].position[row, column].ship = ship;
 
         if (inputHorizontal == "y")
-            collumn++;
+            column++;
         else
             row++;
     }
@@ -176,7 +175,7 @@ bool IsViablePlacement(Ship ship, bool isHorizontal, Grid playerGrid, int row, i
     {
         // if (playerGrid.position[row, collumn].ship != null)
         //     return false;
-        if (row >= rows || collumn >= collumns)
+        if (row >= rows || collumn >= columns)
             return false;
 
         for (int r = -1; r < 2; r++)
@@ -188,7 +187,7 @@ bool IsViablePlacement(Ship ship, bool isHorizontal, Grid playerGrid, int row, i
             for (int c = -1; c < 2; c++)
             {
                 if(c == -1 || c == 1)
-                    if(collumn + c < 0 || collumn + c >= collumns)
+                    if(collumn + c < 0 || collumn + c >= columns)
                         continue;
 
                 if (playerGrid.position[row + r, collumn + c].ship != null && playerGrid.position[row + r, collumn + c].ship != ship)
@@ -208,33 +207,33 @@ bool IsViablePlacement(Ship ship, bool isHorizontal, Grid playerGrid, int row, i
 
 
 
-void InputPosition(out int inputCollumn, out int inputRow)
+void InputPosition(out int inputColumn, out int inputRow)
 {
     InputPos:
     string placementPosition = Console.ReadLine();
 
     if (placementPosition.Length != 2)
     {
-        Console.WriteLine("Invalid Position, positions are written with a letter(collumn) and a number(row). Ex: 'a0'");
+        Console.WriteLine("Invalid Position, positions are written with a letter(column) and a number(row). Ex: 'a0'");
         goto InputPos;
     }
 
-    inputCollumn = char.ToUpper(placementPosition[0]) - 65; //Change Letter To a value based on it's alphabetical position
+    inputColumn = char.ToUpper(placementPosition[0]) - 65; //Change Letter To a value based on it's alphabetical position
     inputRow = char.ToUpper(placementPosition[1]) - 48; //Change string value to it's int value
 
-    if (!IsViableGridPosition(placementPosition, inputCollumn, inputRow))
+    if (!IsViableGridPosition(placementPosition, inputColumn, inputRow))
     {
         Console.WriteLine(
-            "Invalid Position, positions are written with a letter(collumn) and a number(row). Ex: 'a0'");
+            "Invalid Position, positions are written with a letter(column) and a number(row). Ex: 'a0'");
         goto InputPos;
     }
 }
 
-bool IsViableGridPosition(string inputString, int inputCollumn, int inputRow)
+bool IsViableGridPosition(string inputString, int inputColumn, int inputRow)
 {
-    if (inputCollumn < 0 || inputCollumn > collumns)
+    if (inputColumn < 0 || inputColumn > columns)
         return false;
-    if (inputRow > rows)
+    if (inputRow < 0 || inputRow > rows)
         return false;
 
     return true;
@@ -244,7 +243,7 @@ bool IsViableGridPosition(string inputString, int inputCollumn, int inputRow)
 void DrawGameBoard(int player, int otherPlayer, bool placementPhase)
 {
     string collumnLine = " | ";
-    for(int c = 0; c < collumns; c++)
+    for(int c = 0; c < columns; c++)
         collumnLine += (char)(c + 65) + " | ";
     Console.WriteLine(collumnLine.ToLower());
 
@@ -254,7 +253,7 @@ void DrawGameBoard(int player, int otherPlayer, bool placementPhase)
         Console.Write(row + "| ");
 
 
-        for (int collumn = 0; collumn < collumns; collumn++)
+        for (int collumn = 0; collumn < columns; collumn++)
         {
             if (placementPhase)
             {
